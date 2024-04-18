@@ -27,7 +27,8 @@ export interface ChainSpec {
   proxyPaths: {
     cold: number,
     liq: number,
-    long: number
+    long: number,
+    dfltColdSwap?: boolean
   }
   blockExplorer?: string;
   displayName: string;
@@ -38,8 +39,10 @@ const ETHEREUM_LOGO =
   "https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg";
 const SCROLL_LOGO =
   "https://develop--ambient-finance.netlify.app/scroll_logo.png";
+const BLAST_LOGO = 
+ "https://assets-global.website-files.com/65a6baa1a3f8ed336f415cb4/65a6cc95aae1066cf96d497d_Logo%20Black%20on%20Yellow%20Background%402x-p-500.png"
 
-const DFLT_SDK_INFURA_KEY = '360ea5fda45b4a22883de8522ebd639e'
+const DFLT_SDK_INFURA_KEY = '4741d1713bff4013bc3075ed6e7ce091'
 
 const GOERLI_CHAIN: ChainSpec = {
   nodeUrl: "https://goerli.infura.io/v3/" + DFLT_SDK_INFURA_KEY, 
@@ -86,8 +89,8 @@ const ARB_GOERLI_CHAIN: ChainSpec = {
 };
 
 const MAINNET_CHAIN: ChainSpec = {
-  nodeUrl: "https://mainnet.infura.io/v3/360ea5fda45b4a22883de8522ebd639e",
-  wsUrl: "wss://mainnet.infura.io/ws/v3/360ea5fda45b4a22883de8522ebd639e",
+  nodeUrl: "https://mainnet.infura.io/v3/" + DFLT_SDK_INFURA_KEY,
+  wsUrl: "wss://mainnet.infura.io/ws/v3/" + DFLT_SDK_INFURA_KEY,
   addrs: {
     dex: "0xAaAaAAAaA24eEeb8d57D431224f73832bC34f688",
     query: "0xc2e1f740E11294C64adE66f69a1271C5B32004c8",
@@ -102,7 +105,8 @@ const MAINNET_CHAIN: ChainSpec = {
   proxyPaths: {
     cold: 3,
     long: 4,
-    liq: 2
+    liq: 2,
+    dfltColdSwap: true
   },
   blockExplorer: "https://etherscan.io/",
   displayName: "Ethereum",
@@ -110,7 +114,8 @@ const MAINNET_CHAIN: ChainSpec = {
 };
 
 const SEPOLIA_CHAIN: ChainSpec = {
-  nodeUrl: "https://sepolia.infura.io/v3/360ea5fda45b4a22883de8522ebd639e",
+  nodeUrl: "https://sepolia.infura.io/v3/" + DFLT_SDK_INFURA_KEY,
+  wsUrl: "wss://sepolia.infura.io/ws/v3/" + DFLT_SDK_INFURA_KEY,
   addrs: {
     dex: "0xFb8A46E7963E6397DBB4B2E1c0B3f0464fb5BDFF",
     query: "0xDB182F4687708D0F5798c77b4d02ad3425f4B672",
@@ -130,6 +135,54 @@ const SEPOLIA_CHAIN: ChainSpec = {
   blockExplorer: "https://sepolia.etherscan.io/",
   displayName: "Sepolia",
   logoUrl: ETHEREUM_LOGO,
+};
+
+const BLAST_CHAIN: ChainSpec = {
+  nodeUrl: "https://rpc.ankr.com/blast",
+  addrs: {
+    dex: "0xaAaaaAAAFfe404EE9433EEf0094b6382D81fb958",
+    query: "0xA3BD3bE19012De72190c885FB270beb93e36a8A7",
+    impact: "0x6A699AB45ADce02891E6115b81Dfb46CAa5efDb9",
+    router: "0xaab17419F062bB28CdBE82f9FC05E7C47C3F6194",
+    routerBypass: "0xd83eF4d0e968A96329aC297bBf049CDdaC7E0362"
+  },
+  poolIndex: 420,
+  isTestNet: true,
+  chainId: "0x13e31",
+  gridSize: 4,
+  proxyPaths: {
+    cold: 3,
+    long: 130,
+    liq: 128,
+    dfltColdSwap: true
+  },
+  blockExplorer: "https://blastscan.io/",
+  displayName: "Blast",
+  logoUrl: BLAST_LOGO,
+};
+
+const BLAST_SEPOLIA_CHAIN: ChainSpec = {
+  nodeUrl: "https://sepolia.blast.io",
+  addrs: {
+    dex: "0xf65976C7f25b6320c7CD81b1db10cEe97F2bb7AC",
+    query: "0x7757BAEC9c492691eAE235c6f01FB99AaA622975",
+    impact: "0x5D42d6046927DEE12b9b4a235be0ceCd55D0E0fb",
+    router: "0xdCB3b5ec9170beF68E9fff21F0EDD622F72f1899",
+    routerBypass: "0x3A6E9cff691a473D4D0742E1dFc8Ea263a99F6d0"
+  },
+  poolIndex: 36000,
+  isTestNet: true,
+  chainId: "0xa0c71fd",
+  gridSize: 1,
+  proxyPaths: {
+    cold: 3,
+    long: 130,
+    liq: 128,
+    dfltColdSwap: true
+  },
+  blockExplorer: "https://testnet.blastscan.io/",
+  displayName: "Blast Sepolia",
+  logoUrl: BLAST_LOGO,
 };
 
 const SCROLL_SEPOLIA_CHAIN: ChainSpec = {
@@ -171,7 +224,8 @@ const SCROLL_CHAIN: ChainSpec = {
   proxyPaths: {
     cold: 3,
     long: 130,
-    liq: 128
+    liq: 128,
+    dfltColdSwap: true
   },
   blockExplorer: "https://scrollscan.com/",
   displayName: "Scroll",
@@ -192,6 +246,8 @@ export const CHAIN_SPECS: { [chainId: string]: ChainSpec } = {
   "0xaa36a7": SEPOLIA_CHAIN,
   "0x8274f": SCROLL_SEPOLIA_CHAIN,
   "0x82750": SCROLL_CHAIN,
+  "0xa0c71fd": BLAST_SEPOLIA_CHAIN,
+  "0x13e31": BLAST_CHAIN,
   "goerli": GOERLI_CHAIN,
   "sepolia": SEPOLIA_CHAIN,
   "arbtest": ARB_GOERLI_CHAIN,
@@ -202,4 +258,6 @@ export const CHAIN_SPECS: { [chainId: string]: ChainSpec } = {
   "scrolltest": SCROLL_SEPOLIA_CHAIN,
   "scroll": SCROLL_CHAIN,
   "scrollsepolia": SCROLL_SEPOLIA_CHAIN,
+  "blast": BLAST_CHAIN,
+  "blastSepolia": BLAST_SEPOLIA_CHAIN,
 };

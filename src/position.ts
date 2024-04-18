@@ -2,7 +2,7 @@ import { CrocContext } from './context';
 import { CrocTokenView, sortBaseQuoteViews } from './tokens';
 
 type Address = string
-type BlockTag = number | string
+export type BlockTag = number | string
 
 export class CrocPositionView {
     constructor (base: CrocTokenView, quote: CrocTokenView, owner: Address, context: Promise<CrocContext>) {
@@ -21,9 +21,17 @@ export class CrocPositionView {
     }
 
     async queryAmbient (block?: BlockTag) {
-        let blockArg = toCallArg(block)
+       let blockArg = toCallArg(block)
         let context = await this.context
         return context.query.queryAmbientPosition(this.owner, 
+            this.baseToken.tokenAddr, this.quoteToken.tokenAddr, 
+            context.chain.poolIndex, blockArg)
+    }
+
+    async queryAmbientPos (block?: BlockTag) {
+        let blockArg = toCallArg(block)
+        let context = await this.context
+        return context.query.queryAmbientTokens(this.owner, 
             this.baseToken.tokenAddr, this.quoteToken.tokenAddr, 
             context.chain.poolIndex, blockArg)
     }
